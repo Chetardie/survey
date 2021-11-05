@@ -1,0 +1,7 @@
+body {
+  background-color: rgb(87, 86, 86);
+}
+
+.btn {
+  @apply py-2 px-4 font-semibold rounded-lg shadow-md;
+}
