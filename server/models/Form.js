@@ -14,8 +14,17 @@ const formSchema = new Schema({
     type: String,
     required: false
   },
+  answers: [{
+    type: Types.ObjectId,
+    ref: 'FormAnswer'
+  }],
   fields: [{ 
-    type: {
+    type: Object,
+    name: {
+      type: Number,
+      required: true
+    },
+    fieldType: {
       type: String,
       required: true
     },

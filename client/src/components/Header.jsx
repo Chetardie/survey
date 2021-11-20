@@ -9,7 +9,7 @@ const Header = () => {
   <div className="max-w-7xl mx-auto px-4 sm:px-6">
     <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
       <div className="flex justify-start lg:w-0 lg:flex-1">
-        <NavLink to="/">
+        <NavLink to="/" className="text-lg font-semibold">
           <span>Survey</span>
         </NavLink>
       </div>
@@ -21,17 +21,17 @@ const Header = () => {
           </svg>
         </button>
       </div>
-      <nav className="hidden md:flex space-x-10">
-        <NavLink to="/dashboard" className="text-base font-medium text-gray-500 hover:text-gray-900">
-          Dashboard
-        </NavLink>
-        <NavLink to="/my-forms" className="text-base font-medium text-gray-500 hover:text-gray-900">
-          My forms
-        </NavLink>
-        <NavLink to="/create-form" className="text-base font-medium text-gray-500 hover:text-gray-900">
-          Create form
-        </NavLink>
-      </nav>
+      {
+        isAuthenticated &&
+          <nav className="hidden md:flex space-x-10">
+            <NavLink to="/dashboard" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              Dashboard
+            </NavLink>
+            <NavLink to="/my-forms" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              My forms
+            </NavLink>
+          </nav>
+      }
       <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
         {
           isAuthenticated
@@ -40,10 +40,10 @@ const Header = () => {
                 className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
               >Logout</button>
             :  <div>
-                  <NavLink to="/auth?a=signin" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+                  <NavLink to="/auth?action=login" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
                     Sign in
                   </NavLink>
-                  <NavLink to="/auth?a=signup" className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                  <NavLink to="/auth?action=signup" className="btn btn--primary ml-3">
                     Sign up
                   </NavLink>
               </div>
@@ -75,9 +75,6 @@ const Header = () => {
             </NavLink>
             <NavLink to="/my-forms" className="m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
               My forms
-            </NavLink>
-            <NavLink to="/create-form" className="m-3 p-3 flex items-center rounded-md hover:bg-gray-50">
-              Create form
             </NavLink>
           </nav>
         </div>

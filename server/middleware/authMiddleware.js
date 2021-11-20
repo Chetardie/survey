@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: 'Access denied' })
     }
-
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     req.user = decoded
     next()

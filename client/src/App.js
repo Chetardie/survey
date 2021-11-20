@@ -4,6 +4,10 @@ import { useRoutes } from './routes'
 import { useAuth } from './hooks/authHook'
 import { AuthContext } from './context/AuthContext'
 import Header from './components/Header'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons"
+
+library.add(faTrashAlt)
 
 const App = () => {
   const {token, login, logout, userId, ready} = useAuth()

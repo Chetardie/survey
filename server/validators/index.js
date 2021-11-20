@@ -15,5 +15,11 @@ module.exports = validate = (method) => {
         body('password', 'Invalid password').exists().isLength({ min: 8 }),
       ]
     }
+    case 'submitForm': {
+      return [
+        body('formId', 'Invalid form Id').exists(),
+        body('fields', 'Invalid form').exists()
+      ]
+    }
   }
 }
