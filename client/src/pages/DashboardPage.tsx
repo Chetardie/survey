@@ -2,15 +2,16 @@ import { useCallback, useContext, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/httpHook"
+import { IForm } from "../types"
 
 export const DashboardPage = () => {
-  const [forms, setForms] = useState([])
+  const [forms, setForms] = useState<IForm[]>([])
   const { request } = useHttp()
   const { token } = useContext(AuthContext)
 
   const getAllForms = useCallback(() => {
     const fetchForms = async () => {
-      const forms = await request('/api/forms/getAllForms', 'GET', null, {
+      const forms: IForm[] = await request('/api/forms/getAllForms', 'GET', null, {
         Authorization: `Bearer ${token}`
       })
       setForms(forms)

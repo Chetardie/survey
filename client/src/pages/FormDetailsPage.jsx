@@ -59,7 +59,7 @@ export const FormDetailsPage = () => {
                   name={'description'}
                   value={form.title} 
                   label={'Form description'} 
-                  onValueChange={onTitleChange} 
+                  onValueChange={onDescriptionChange} 
                 />
               </li>
               {
