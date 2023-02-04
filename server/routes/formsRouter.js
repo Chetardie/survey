@@ -6,7 +6,7 @@ const router = Router()
 
 
 router.get('/all/:formId', formsController.getForm)
-router.get('/getAllForms', auth, formsController.getAllForms)
+router.get('/all', auth, formsController.getAllForms)
 router.get('/details/:formId', auth, formsController.getFormDetails)
 router.post('/create', auth, formsController.createForm)
 router.post('/submit', validate('submitForm'), formsController.submitForm)

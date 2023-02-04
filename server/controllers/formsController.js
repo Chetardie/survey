@@ -15,6 +15,7 @@ class FormsController {
   async getAllForms (req, res) {
     try {
       const forms = await Form.find({ author: req.user.userId }).populate('answers')
+      // console.log('object', forms);
       res.json(forms.map(adaptUserForm))
     } catch {
       res.status(500).json({message: 'Something went wrong!'})
@@ -53,7 +54,7 @@ class FormsController {
 
   async submitForm (req, res) {
     try {
-      const { formId, fields: answerFields } = req.body
+      const { id: formId, fields: answerFields } = req.body
       const form = await Form.findById(formId)
       const formFields = form.fields
       

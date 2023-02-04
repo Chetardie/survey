@@ -1,34 +1,18 @@
-import { useCallback, useContext, useEffect, useState } from "react"
+
 import { Link } from "react-router-dom"
-import { AuthContext } from "../context/AuthContext"
-import { useHttp } from "../hooks/httpHook"
-import { IForm } from "../types"
+import { useGetAllUserFormsQuery } from "../store/api/formsApi"
 
 export const DashboardPage = () => {
-  const [forms, setForms] = useState<IForm[]>([])
-  const { request } = useHttp()
-  const { token } = useContext(AuthContext)
+  const { data: forms, isLoading, error } = useGetAllUserFormsQuery()
 
-  const getAllForms = useCallback(() => {
-    const fetchForms = async () => {
-      const forms: IForm[] = await request('/api/forms/getAllForms', 'GET', null, {
-        Authorization: `Bearer ${token}`
-      })
-      setForms(forms)
-    }
-    fetchForms()
-  }, [request, token])
-
-  useEffect(() => {
-    // if (false) getAllForms()
-    if (true) getAllForms()
-  }, [getAllForms])
+  if (isLoading) return 'Loading...'
+  if (error) return 'Error'
 
   return (
     <div className="container mx-auto py-10">
       <h2 className="mb-5 text-3xl">My forms</h2>
       <ul className="flex items-center mb-10">
-        {forms.map(form => (
+        { forms && forms.map(form => (
           <li key={form.id} className="mr-5 cursor-pointer">
             <Link
               to={`/my-forms/${form.id}`}

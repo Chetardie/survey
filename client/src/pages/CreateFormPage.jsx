@@ -1,16 +1,12 @@
-import { useCallback, useContext, useEffect } from "react"
-import { AuthContext } from "../context/AuthContext"
+import { useCallback, useEffect } from "react"
 import { useHttp } from "../hooks/httpHook"
 
 export const CreateFormPage = () => {
   const { request } = useHttp()
-  const { token } = useContext(AuthContext)
 
   const createForm = useCallback(() => {
-    request('/api/forms/create', 'POST', null, {
-      Authorization: `Bearer ${token}`
-    })
-  }, [request, token])
+    request('/api/forms/create', 'POST')
+  }, [request])
 
   useEffect(() => {
     // if (false) createForm()

@@ -1,17 +1,16 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useHistory } from "react-router"
 import { Link } from "react-router-dom"
+
+import { useAuth } from "../hooks/authHook"
+import { useQuery } from "../hooks/queryHook"
 import { FormButton } from "../components/form-elements/FormButton"
 import { FormInput } from "../components/form-elements/FormInput"
-import { AuthContext } from "../context/AuthContext"
-import { useHttp } from "../hooks/httpHook"
-import { useQuery } from "../hooks/queryHook"
 
 export const AuthPage = () => {
+  const { login, register, isAuthenticated } = useAuth()
   const history = useHistory()
   const query = useQuery()
-  const { request } = useHttp()
-  const { login } = useContext(AuthContext)
   const [actionType, setActionType] = useState('login')
   const [loginForm, setLoginForm] = useState({
     email: {
@@ -57,9 +56,9 @@ export const AuthPage = () => {
     newForm[event.target.name].value = event.target.value
     setLoginForm(newForm)
   }
-  const onRegisterFormValueChange = event => {
+  const onRegisterFormValueChange = (value, name) => {
     const newForm = { ...registerForm }
-    newForm[event.target.name].value = event.target.value
+    newForm[name].value = value
     setRegisterForm(newForm)
   }
   const submitLoginForm = async (e) => {
@@ -68,9 +67,8 @@ export const AuthPage = () => {
     Object.values(data).forEach(el => {
       data[el.name] = el.value
     })
-    const userData = await request('/api/auth/login', 'POST', data)
-    login(userData.token, userData.userId)
-    history.push('/dashboard')
+    await login(data)
+    if (isAuthenticated) history.push('/dashboard')
   }
   const submitRegisterForm = async (e) => {
     e.preventDefault()
@@ -78,9 +76,9 @@ export const AuthPage = () => {
     Object.values(data).forEach(el => {
       data[el.name] = el.value
     })
-    const userData = await request('/api/auth/register', 'POST', data)
-    login(userData.token, userData.userId)
-    history.push('/dashboard')
+    
+    await register(data)
+    if (isAuthenticated) history.push('/dashboard')
   }
 
   return (
@@ -110,7 +108,13 @@ export const AuthPage = () => {
           <form>
             { Object.values(registerForm).map(field => {
               return (
-                <FormInput key={field.name} value={field.value} label={field.label} name={field.name} onValueChange={onRegisterFormValueChange} />
+                <FormInput
+                  key={field.name}
+                  value={field.value}
+                  label={field.label}
+                  name={field.name}
+                  onValueChange={(value) => onRegisterFormValueChange(value, field.name)} 
+                />
               )
             }) }
             <FormButton classString="mt-2 w-full" label="Sign up" onButtonClick={submitRegisterForm} />

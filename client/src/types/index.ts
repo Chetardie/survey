@@ -1,16 +1,16 @@
 export interface IFormField {
-  fieldType: FormFieldType,
+  fieldType: FormFieldTypes,
   label: string,
-  name: number,
+  name: string | undefined,
   options: string[],
   required: boolean,
   values: string[]
 }
 
 export interface IFormAnswerField {
-  name: number,
+  name: string | undefined,
   values: string[]
-  _id: string
+  id: string
 }
 
 export interface IFormAnswer {
@@ -18,7 +18,7 @@ export interface IFormAnswer {
   date: string,
   fields: Array<IFormAnswerField>,
   updatedAt: string,
-  _id: string
+  id: string
 }
 
 export interface IForm {
@@ -30,4 +30,16 @@ export interface IForm {
   answers: Array<IFormAnswer>
 }
 
-export type FormFieldType = 'input' | 'select' | 'textarea'
+export type FormFieldTypes = 'input' | 'select' | 'textarea'
+export type FormFieldNames = 'Input' | 'Select' | 'Textarea'
+
+export type FieldType = {
+  title: FormFieldNames,
+  value: FormFieldTypes
+}
+
+export type FieldTypes = {
+  input: FieldType,
+  textarea: FieldType,
+  select: FieldType
+}

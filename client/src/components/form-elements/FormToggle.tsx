@@ -1,4 +1,14 @@
-export const FormToggle = ({ value, label, name, onValueChange }) => {
+import {FC} from "react"
+interface FormToggleProps {
+  value: boolean,
+  label: string,
+  name: string,
+  required?: boolean,
+  onValueChange: (e: any) => void
+}
+
+export const FormToggle: FC<FormToggleProps> = ({ value, label, name, onValueChange, required = false }) => {
+
   return (
     <div className="form-toggle">
       <label className="switch">
@@ -7,6 +17,7 @@ export const FormToggle = ({ value, label, name, onValueChange }) => {
           onChange={onValueChange}
           checked={value}
           type="checkbox"
+          required={required}
         />
         <span className="slider round"></span>
       </label>

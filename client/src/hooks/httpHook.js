@@ -7,12 +7,15 @@ export const useHttp = () => {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { logout } = useContext(AuthContext)
+  const { token, logout, isAuthenticated } = useContext(AuthContext)
 
   const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
     setLoading(true)
     if (body) {
       headers['Content-Type'] = 'application/json'
+    }
+    if (isAuthenticated) {
+      headers['Authorization'] = `Bearer ${token}`
     }
     return new Promise((resolve, reject) => {
       axios({ method, url, data: body, headers })
@@ -22,7 +25,6 @@ export const useHttp = () => {
           if (e.response.status === 401) {
             logout()
             history.push('/auth')
-            console.log(e.response.status);
           }
           setError(e?.response?.data?.message || e.message)
           reject(e?.response?.data?.message || e.message)
@@ -30,7 +32,7 @@ export const useHttp = () => {
           setLoading(false)
         })
     })
-  }, [logout, history])
+  }, [logout, history, token, isAuthenticated])
 
   const clearError = useCallback(() => setError(null), [])
 

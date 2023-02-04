@@ -1,26 +1,24 @@
-import { useContext, useEffect, useState } from "react"
-import { AuthContext } from "../context/AuthContext"
-import { useHttp } from "../hooks/httpHook"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router"
 import { FormInput } from "../components/form-elements/FormInput"
 import { FormTextarea } from "../components/form-elements/FormTextarea"
 import { FormFieldBuilder } from "../components/FormFieldBuilder"
+import { useGetFormDetailsByIdQuery } from "../store/api/formsApi"
 
 export const FormDetailsPage = () => {
   const [tab, setTab] = useState('questions')
   const [form, setForm] = useState({
+    id: '',
     title: '',
     description: '',
-    fields: [1]
+    fields: []
   })
   const { formId } = useParams()
-  const { request } = useHttp()
-  const { token } = useContext(AuthContext)
+  const { data, isLoading, error } = useGetFormDetailsByIdQuery(formId)
+  console.log('isLoading', isLoading);
   useEffect(() => {
-    request(`/api/forms/details/${formId}`, 'GET', null, {
-      Authorization: `Bearer ${token}`
-    })
-  }, [request, token, formId])
+    if (data) setForm(data)
+  }, [data])
 
   const onTitleChange = (e) => {
     const newForm = {...form}

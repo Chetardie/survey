@@ -1,9 +1,8 @@
-import { useContext } from "react"
 import { NavLink } from "react-router-dom"
-import { AuthContext } from "../context/AuthContext"
+import { useAuth } from "../hooks/authHook"
 
 const Header = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext)
+  const { isAuthenticated, logout } = useAuth()
 
   return (<div className="relative bg-white">
   <div className="max-w-7xl mx-auto px-4 sm:px-6">
